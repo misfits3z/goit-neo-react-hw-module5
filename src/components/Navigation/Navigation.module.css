@@ -1,0 +1,22 @@
+.activeLink {
+  color: red;
+  font-weight: bold;
+}
+
+.activeLink:hover{
+    color: brown;
+}
+
+.inactiveLink {
+  color: gray;
+}
+
+.inactiveLink:hover{
+    color: black;
+}
+
+nav{
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}

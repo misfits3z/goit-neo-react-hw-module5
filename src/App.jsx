@@ -2,24 +2,27 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 
 // Імпортуємо компоненти
-import HomePage from './pages/HomePage';
-import MoviesPage from './pages/MoviesPage';
-import MovieDetailsPage from './pages/MovieDetailsPage';
-import NotFoundPage from './pages/NotFoundPage';
-import MovieCast from './components/MovieCast';
-import MovieReviews from './components/MovieReviews';
+import HomePage from './pages/HomePage/HomePage';
+import MoviesPage from './pages/MoviesPage/MoviesPage';
+import MovieDetailsPage from './pages/MoveDetaliesPage/MoveDetaliesPage';
+import MovieCast from './components/MoveCast/MoveCast';
+import MovieReviews from './components/MovieReviews/MovieReviews';
+import NotFoundPage from './pages/NotFoundPages/NotFoundPages'
+import Navigation from './components/Navigation/Navigation';
 
 function App() {
   return (
     <div>
+      <>
+      <Navigation></Navigation>
       <Routes>
         {/* Головна сторінка */}
         <Route path="/" element={<HomePage />} />
 
-        {/* Сторінка пошуку фільмів */}
+        {/* Сторінка пошуку  */}
         <Route path="/movies" element={<MoviesPage />} />
 
-        {/* Сторінка деталей фільму з вкладеними маршрутами */}
+        {/* вкладені маршрути */}
         <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
           <Route path="cast" element={<MovieCast />} />
           <Route path="reviews" element={<MovieReviews />} />
@@ -28,6 +31,7 @@ function App() {
         {/* Сторінка для неіснуючих маршрутів */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      </>
     </div>
   );
 }

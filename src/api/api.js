@@ -1,13 +1,37 @@
-const url = 'https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1';
-const API_KEY = '0a53fef8c5a99d3ebb3d12f825a9d317'
+import axios from "axios";
+
+const API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYTUzZmVmOGM1YTk5ZDNlYmIzZDEyZjgyNWE5ZDMxNyIsIm5iZiI6MTczMzcyOTM5My43ODksInN1YiI6IjY3NTY5YzcxY2YxODAxOTY4ZjAyZThmMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ZIdEWDpbNLHH_ZYqP_7vKeT50wWrWUfYEQRT6NhJ06w';
+
+axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 const options = {
   headers: {
-	// Замість api_read_access_token вставте свій токен
-    Authorization: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYTUzZmVmOGM1YTk5ZDNlYmIzZDEyZjgyNWE5ZDMxNyIsIm5iZiI6MTczMzcyOTM5My43ODksInN1YiI6IjY3NTY5YzcxY2YxODAxOTY4ZjAyZThmMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ZIdEWDpbNLHH_ZYqP_7vKeT50wWrWUfYEQRT6NhJ06w'
+    accept: 'application/json',
+    Authorization: `Bearer ${API_TOKEN}`
   }
 };
 
-axios.get(url, options)
-  .then(response => console.log(response))
-  .catch(err => console.error(err));
+// Запит для отримання популярних фільмів
+export const getMoviesList = async () => {
+  try {
+    const response = await axios.get('/trending/movie/day', options);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching movies:', error);
+    throw error;
+  }
+};
+
+// Запит для пошуку фільмів за ключовими словами
+export const getMovie = async (query) => {
+  try {
+    const response = await axios.get('/search/movie', {
+      ...options,
+      params: { query }, // Додаємо параметр пошуку
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching movies:', error);
+    throw error;
+  }
+};
