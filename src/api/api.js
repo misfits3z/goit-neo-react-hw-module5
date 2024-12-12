@@ -23,11 +23,25 @@ export const getMoviesList = async () => {
 };
 
 // Запит для пошуку фільмів за ключовими словами
-export const getMovie = async (query) => {
+export const searchMovie = async (query) => {
   try {
     const response = await axios.get('/search/movie', {
       ...options,
       params: { query }, // Додаємо параметр пошуку
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching movies:', error);
+    throw error;
+  }
+};
+
+// Запит для пошуку фільмів за ключовими словами
+export const getMovie = async (id) => {
+  try {
+    const response = await axios.get('/search/movie', {
+      ...options,
+      params: { id }, // Додаємо параметр пошуку
     });
     return response.data;
   } catch (error) {

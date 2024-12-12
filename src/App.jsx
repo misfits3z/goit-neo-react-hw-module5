@@ -14,7 +14,7 @@ function App() {
   return (
     <div>
       <>
-      <Navigation></Navigation>
+      <Navigation/>
       <Routes>
         {/* Головна сторінка */}
         <Route path="/" element={<HomePage />} />

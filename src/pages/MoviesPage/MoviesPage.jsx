@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 
-import { getMovie } from '../../api/api'; // Імпорт API функції
+import { searchMovie } from '../../api/api'; // Імпорт API функції
 import css from './MoviesPage.module.css';
 
 function MoviesPage() {
@@ -29,7 +29,7 @@ function MoviesPage() {
 
     const fetchMovies = async () => {
       try {
-        const data = await getMovie(searchQuery); // Виклик API
+        const data = await searchMovie(searchQuery); // Виклик API
         setMovies(data.results); // Зберігаємо результати у стан
       } catch (error) {
         toast.error("Failed to fetch movies. Please try again later.");
