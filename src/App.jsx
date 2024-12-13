@@ -4,8 +4,8 @@ import './App.css';
 // Імпортуємо компоненти
 import HomePage from './pages/HomePage/HomePage';
 import MoviesPage from './pages/MoviesPage/MoviesPage';
-import MovieDetailsPage from './pages/MoveDetaliesPage/MoveDetaliesPage';
-import MovieCast from './components/MoveCast/MoveCast';
+import MovieDetailsPage from './pages/MovieDetaliesPage/MovieDetaliesPage';
+import MovieCast from './components/MovieCast/MovieCast';
 import MovieReviews from './components/MovieReviews/MovieReviews';
 import NotFoundPage from './pages/NotFoundPages/NotFoundPages'
 import Navigation from './components/Navigation/Navigation';

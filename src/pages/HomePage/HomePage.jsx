@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getMoviesList } from '../../api/api'; 
-import MoveList from '../../components/MoveList/MoveList'
+import MoveList from '../../components/MovieList/MovieList'
 
 function HomePage() {
   const [movies, setMovies] = useState([]);

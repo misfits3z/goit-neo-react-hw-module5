@@ -55,3 +55,22 @@ export const getMovie = async (id) => {
     throw error;
   }
 };
+
+// акторський склад
+export const getCast = async (id) => {
+  try {
+    const response = await axios.get(`/movie/${id}/credits`, {
+      ...options,
+      params: {
+        language: 'en-US',
+        include_adult: false 
+      },
+    });
+    console.log('get cast', response.data)
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching movie details:', error);
+    throw error;
+  }
+};

@@ -1,10 +1,11 @@
 import { getMovie } from "../../api/api";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, Suspense } from "react";
+import { useParams, Link, Outlet, useLocation } from "react-router-dom";
 
 function MovieDetailsPage() {
   const [movie, setMovieDetails] = useState([]); 
   const { movieId } = useParams(); // id з параметрів маршруту
+  const location = useLocation();
 
   useEffect(() => {
     if (!movieId) return; 
@@ -14,13 +15,13 @@ function MovieDetailsPage() {
         const data = await getMovie(id); 
         setMovieDetails(data); 
         console.log("Fetched movie data:", data);
-      } catch (error) {
+      } catch {
         console.error("Failed to fetch movie details. Please try again later.");
       }
     };
 
     fetchMovieDetails(movieId);
-  }, [movieId]); 
+  }, [location, movieId]); 
 
   if (!movie) return <p>Loading...</p>; 
 
@@ -39,12 +40,15 @@ function MovieDetailsPage() {
       <p>Additional information</p>
       <ul>
         <li>
-          <a href={`/movies/${movieId}/cast`}>Cast</a>
+        <Link to="cast">Cast</Link>
         </li>
         <li>
-          <a href={`/movies/${movieId}/reviews`}>Reviews</a>
+        <Link to="reviews">Reviews</Link>
         </li>
       </ul>
+      <Suspense fallback={<div>Loading additional info...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }
