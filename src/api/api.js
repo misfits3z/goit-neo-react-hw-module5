@@ -1,4 +1,5 @@
 import axios from "axios";
+import { data } from "react-router-dom";
 
 const API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYTUzZmVmOGM1YTk5ZDNlYmIzZDEyZjgyNWE5ZDMxNyIsIm5iZiI6MTczMzcyOTM5My43ODksInN1YiI6IjY3NTY5YzcxY2YxODAxOTY4ZjAyZThmMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ZIdEWDpbNLHH_ZYqP_7vKeT50wWrWUfYEQRT6NhJ06w';
 
@@ -36,16 +37,21 @@ export const searchMovie = async (query) => {
   }
 };
 
-// Запит для пошуку фільмів за ключовими словами
+// Запит для деталей
 export const getMovie = async (id) => {
   try {
-    const response = await axios.get('/search/movie', {
+    const response = await axios.get(`/movie/${id}`, {
       ...options,
-      params: { id }, // Додаємо параметр пошуку
+      params: {
+        language: 'en-US',
+        include_adult: false 
+      },
     });
+    console.log('get movie', response.data)
     return response.data;
+    
   } catch (error) {
-    console.error('Error fetching movies:', error);
+    console.error('Error fetching movie details:', error);
     throw error;
   }
 };
