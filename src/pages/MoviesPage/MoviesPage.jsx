@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
+import { Link, useLocation } from "react-router-dom";
 
 import { searchMovie } from '../../api/api'; // Імпорт API функції
 import css from './MoviesPage.module.css';
@@ -7,6 +8,7 @@ import css from './MoviesPage.module.css';
 function MoviesPage() {
   const [searchQuery, setSearchQuery] = useState(""); // Стан для збереження пошукового запиту
   const [movies, setMovies] = useState([]); // Стан для збереження результатів фільмів
+  const location = useLocation();
 
   const notify = () =>
     toast.error("The search query must be at least 2 characters long", {
@@ -59,9 +61,11 @@ function MoviesPage() {
       <ul className={css.moviesList}>
         {movies.length > 0 ? (
           movies.map(movie => (
-            <li key={movie.id} className={css.movieItem}>
-              {movie.title}
-            </li>
+            <li key={movie.id}>
+              <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+                {movie.title}
+              </Link>
+           </li>
           ))
         ) : (
           <p className={css.noResults}>No movies found</p>

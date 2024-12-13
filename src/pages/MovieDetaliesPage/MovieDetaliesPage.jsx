@@ -1,11 +1,13 @@
 import { getMovie } from "../../api/api";
 import { useState, useEffect, Suspense } from "react";
-import { useParams, Link, Outlet, useLocation } from "react-router-dom";
+import { useParams, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 function MovieDetailsPage() {
   const [movie, setMovieDetails] = useState([]); 
   const { movieId } = useParams(); // id з параметрів маршруту
   const location = useLocation();
+  const navigate = useNavigate();
+  const backLink = location.state?.from || "/";
 
   useEffect(() => {
     if (!movieId) return; 
@@ -27,6 +29,7 @@ function MovieDetailsPage() {
 
   return (
     <div>
+       <button onClick={() => navigate(backLink)}>Go back</button>
       <h1>{movie.title}</h1>
       <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
       <div>
