@@ -14,7 +14,7 @@ function MovieDetailsPage() {
       try {
         const data = await getMovie(id); 
         setMovieDetails(data); 
-        console.log("Fetched movie data:", data);
+        
       } catch {
         console.error("Failed to fetch movie details. Please try again later.");
       }

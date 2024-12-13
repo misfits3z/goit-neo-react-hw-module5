@@ -74,3 +74,22 @@ export const getCast = async (id) => {
     throw error;
   }
 };
+
+// огляд сторінки
+export const getReviews = async (id) => {
+  try {
+    const response = await axios.get(`/movie/${id}/reviews`, {
+      ...options,
+      params: {
+        language: 'en-US',
+        include_adult: false 
+      },
+    });
+    console.log('get reviews', response.data)
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching movie details:', error);
+    throw error;
+  }
+};
