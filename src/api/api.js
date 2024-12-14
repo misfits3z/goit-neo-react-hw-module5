@@ -1,5 +1,5 @@
 import axios from "axios";
-import { data } from "react-router-dom";
+// import { data } from "react-router-dom";
 
 const API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYTUzZmVmOGM1YTk5ZDNlYmIzZDEyZjgyNWE5ZDMxNyIsIm5iZiI6MTczMzcyOTM5My43ODksInN1YiI6IjY3NTY5YzcxY2YxODAxOTY4ZjAyZThmMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ZIdEWDpbNLHH_ZYqP_7vKeT50wWrWUfYEQRT6NhJ06w';
 

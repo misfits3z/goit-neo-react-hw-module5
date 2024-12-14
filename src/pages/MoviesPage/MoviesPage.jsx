@@ -1,45 +1,67 @@
 import { useState, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
-import { searchMovie } from '../../api/api'; // Імпорт API функції
+import { searchMovie } from '../../api/api';
 import css from './MoviesPage.module.css';
+import Loader from "../../components/Loader/Loader";
 
 function MoviesPage() {
-  const [searchQuery, setSearchQuery] = useState(""); // Стан для збереження пошукового запиту
-  const [movies, setMovies] = useState([]); // Стан для збереження результатів фільмів
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const notify = () =>
-    toast.error("The search query must be at least 2 characters long", {
-      duration: 3000,
-      position: "top-right",
+  const MySwal = withReactContent(Swal);
+
+  // Стан з location.state
+  const [searchQuery, setSearchQuery] = useState(location.state?.query || "");
+  const [movies, setMovies] = useState(location.state?.results || []);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasSearched, setHasSearched] = useState(!!location.state?.query);
+
+  const notify = () => {
+    MySwal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "The search query must be at least 2 characters long",
     });
+  };
 
   const handleSubmit = (values, actions) => {
     const query = values.query.trim().toLowerCase();
     if (query.length < 2) {
       notify();
     } else {
-      setSearchQuery(query); // Оновлюємо стан пошукового запиту
+      setSearchQuery(query);
+      setHasSearched(true);
+      actions.resetForm();
     }
-    actions.resetForm();
   };
 
   useEffect(() => {
-    if (!searchQuery) return; // Якщо немає запиту, не виконуємо запит до API
+    if (!searchQuery) return;
 
     const fetchMovies = async () => {
+      setIsLoading(true);
       try {
-        const data = await searchMovie(searchQuery); // Виклик API
-        setMovies(data.results); // Зберігаємо результати у стан
-      } catch (error) {
-        toast.error("Failed to fetch movies. Please try again later.");
+        const data = await searchMovie(searchQuery);
+        setMovies(data.results);
+        // Оновлюємо `location.state` при пошуку
+        navigate("/movies", { state: { query: searchQuery, results: data.results } });
+      } catch {
+        MySwal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to fetch movies. Please try again later.",
+        });
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchMovies();
-  }, [searchQuery]); // Виконати лише коли змінюється `searchQuery`
+  }, [searchQuery, navigate]);
 
   return (
     <>
@@ -52,23 +74,27 @@ function MoviesPage() {
             placeholder="Search movies"
           />
           <button className={css.buttonSearch} type="submit">
-            {/* Додайте іконку пошуку або текст */}
             Search
           </button>
         </Form>
       </Formik>
 
       <ul className={css.moviesList}>
-        {movies.length > 0 ? (
+        {isLoading ? (
+          <Loader />
+        ) : movies.length > 0 ? (
           movies.map(movie => (
             <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+              <Link
+                to={`/movies/${movie.id}`}
+                state={{ query: searchQuery, results: movies }} // Передаємо стан
+              >
                 {movie.title}
               </Link>
-           </li>
+            </li>
           ))
         ) : (
-          <p className={css.noResults}>No movies found</p>
+          hasSearched && <p className={css.noResults}>No movies found</p>
         )}
       </ul>
     </>
