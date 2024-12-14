@@ -1,8 +1,8 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useParams, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-
 import { getMovie } from "../../api/api";
+import css from './MovieDetaliesPage.module.css'
 
 function MovieDetailsPage() {
   const [movie, setMovieDetails] = useState([]);
@@ -33,31 +33,49 @@ function MovieDetailsPage() {
   if (!movie) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className={css.movieDetailsContainer}>
       <button onClick={() => navigate(backLink, { state: { query, results } })}>Go back</button>
-      <h1>{movie.title}</h1>
-      <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
-      <div>
-        <h2>Overview</h2>
-        <p>{movie.overview}</p>
-        <h3>Genres</h3>
-        {movie.genres &&
-          movie.genres.map((g) => (
-            <span key={g.id}>{g.name}</span>
-          ))}
-      </div>
-      <p>Additional information</p>
-      <ul>
-        <li>
-          <Link to="cast" state={{ from: backLink }}>Cast</Link>
-        </li>
-        <li>
-          <Link to="reviews" state={{ from: backLink }}>Reviews</Link>
-        </li>
-      </ul>
-      <Suspense fallback={<div>Loading additional info...</div>}>
-        <Outlet />
-      </Suspense>
+  
+      {movie ? (
+        <>
+          <div className={css.detailsContent}>
+            {/* Фото */}
+            <div className={css.imageContainer}>
+              <img
+                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                alt={movie.title}
+                className={css.movieImage}
+              />
+            </div>
+  
+            {/* Інформація про фільм */}
+            <div className={css.infoContainer}>
+              <h1>{movie.title}</h1>
+              <h2>Overview</h2>
+              <p>{movie.overview}</p>
+  
+              <h3>Genres</h3>
+              {movie.genres && movie.genres.map((g) => (
+                <span key={g.id}>{g.name}</span>
+              ))}
+            </div>
+          </div>
+  
+          <div className={css.additionalInfo}>
+            <p>Additional information</p>
+            <ul>
+              <li><Link to="cast" state={{ from: backLink }}>Cast</Link></li>
+              <li><Link to="reviews" state={{ from: backLink }}>Reviews</Link></li>
+            </ul>
+          </div>
+  
+          <Suspense fallback={<div>Loading additional info...</div>}>
+            <Outlet />
+          </Suspense>
+        </>
+      ) : (
+        <div>Loading movie details...</div>
+      )}
     </div>
   );
 }

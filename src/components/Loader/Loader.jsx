@@ -6,7 +6,7 @@ const Loader = () => {
     <Puff
       height="80"
       width="80"
-      color="#28a745"  
+      color=" #3d3d3d"  
       ariaLabel="puff-loading"
       wrapperClass={css.loader}
     />

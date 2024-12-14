@@ -14,25 +14,27 @@ const Navigation = lazy (() => import ('./components/Navigation/Navigation'))
 function App() {
   return(
     <div>
-      <Navigation/>
-      <Suspense fallback={<h1>LOADING!!!!!!!!!!!!!!!!!!</h1>}>
-      <Routes>
-        {/* Головна сторінка */}
-        <Route path="/" element={<HomePage />} />
+      <Navigation />
+      <div className="container"> 
+        <Suspense fallback={<h1>LOADING...</h1>}>
+          <Routes>
+            {/* Головна сторінка */}
+            <Route path="/" element={<HomePage />} />
 
-        {/* Сторінка пошуку  */}
-        <Route path="/movies" element={<MoviesPage />} />
+            {/* Сторінка пошуку */}
+            <Route path="/movies" element={<MoviesPage />} />
 
-        {/* вкладені маршрути */}
-        <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
-          <Route path="cast" element={<MovieCast />} />
-          <Route path="reviews" element={<MovieReviews />} />
-        </Route>
+            {/* Вкладені маршрути */}
+            <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
+              <Route path="cast" element={<MovieCast />} />
+              <Route path="reviews" element={<MovieReviews />} />
+            </Route>
 
-        {/* Сторінка для неіснуючих маршрутів */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-      </Suspense>
+            {/* Сторінка для неіснуючих маршрутів */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </div>
     </div>
   )
 }
