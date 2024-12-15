@@ -3,7 +3,7 @@ import { Formik, Field, Form } from "formik";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
+import { FaCaretRight } from 'react-icons/fa';
 import { searchMovie } from '../../api/api';
 import css from './MoviesPage.module.css';
 import Loader from "../../components/Loader/Loader";
@@ -25,6 +25,14 @@ function MoviesPage() {
       icon: "error",
       title: "Oops...",
       text: "The search query must be at least 2 characters long",
+      didOpen: () => {
+        // Коли модальне вікно відкрито, стилізуємо кнопку
+        const confirmButton = MySwal.getConfirmButton();
+        confirmButton.style.backgroundColor = '#a4496d'; 
+        confirmButton.style.color = 'white'; 
+        confirmButton.style.borderRadius = '5px'; 
+        confirmButton.style.padding = '10px 20px'; 
+      },
     });
   };
 
@@ -64,7 +72,7 @@ function MoviesPage() {
   }, [searchQuery, navigate]);
 
   return (
-    <>
+    <div className={css.formContainer}>
       <Formik initialValues={{ query: "" }} onSubmit={handleSubmit}>
         <Form className={css.form}>
           <Field
@@ -85,6 +93,7 @@ function MoviesPage() {
         ) : movies.length > 0 ? (
           movies.map(movie => (
             <li key={movie.id}>
+              <FaCaretRight className={css.iconMovieList}/>
               <Link
                 to={`/movies/${movie.id}`}
                 state={{ query: searchQuery, results: movies }} // Передаємо стан
@@ -97,7 +106,7 @@ function MoviesPage() {
           hasSearched && <p className={css.noResults}>No movies found</p>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 

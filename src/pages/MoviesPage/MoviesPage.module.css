@@ -1,44 +1,88 @@
-.form {
+body{
+  display: block;
+}
+.formContainer {
   display: flex;
-  gap: 10px;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.form {
   align-items: center;
-  background-color: darkgray;
-  padding: 10px;
-  border-radius: 5px; 
+  justify-content: flex-start;
+  width: 100%; 
 }
 
 .inputSearch {
-  flex: 1; 
-  max-width: 400px; 
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid #ccc; 
   border-radius: 4px;
+  margin-right: 10px; 
+  width: 200px;
   outline: none;
 }
 
 .inputSearch:hover{
-  border-color: #4caf50;
+  border-color: #893e5c;
+  
 }
 
 .buttonSearch {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #4caf50;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #a4496d;
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease; 
+  margin: 0;
 }
 
 .buttonSearch:hover {
-  background-color: #45a049; 
+  background-color: #893e5c;
 }
 
-.buttonSearch svg {
-  font-size: 20px;
+.moviesList {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; 
 }
+
+.moviesList li {
+  margin: 10px 0;
+}
+
+.moviesList li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
+.moviesList li a:hover {
+  color: #a4496d;
+}
+
+.iconMovieList{
+  color: #a4496d; 
+  font-size: 14px;
+}
+
+.noResults {
+  font-size: 18px;
+  color: #777;
+  text-align: center;
+}
+
+/* кнопка  MySwal */
+/* .custom-confirm-button {
+  background-color: #a4496d; 
+  color: white; 
+  border-radius: 5px; 
+  padding: 10px 20px; 
+}
+
+.custom-confirm-button:hover {
+  background-color: #893e5c; 
+} */

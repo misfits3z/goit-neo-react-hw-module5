@@ -3,6 +3,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useParams, Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getMovie } from "../../api/api";
 import css from './MovieDetaliesPage.module.css'
+import { FaCaretRight, FaRegClock, FaAngleRight } from 'react-icons/fa';
 
 function MovieDetailsPage() {
   const [movie, setMovieDetails] = useState([]);
@@ -52,20 +53,34 @@ function MovieDetailsPage() {
             <div className={css.infoContainer}>
               <h1>{movie.title}</h1>
               <h2>Overview</h2>
-              <p>{movie.overview}</p>
+              <p className={css.overviewP}>{movie.overview}</p>
   
-              <h3>Genres</h3>
-              {movie.genres && movie.genres.map((g) => (
-                <span key={g.id}>{g.name}</span>
-              ))}
+              <h3 className={css.genres}>Genres</h3>
+              <div className={css.genreList}>
+                {movie.genres && movie.genres.map((g) => (
+                  <span key={g.id} className={css.genreItem}>
+                    <FaCaretRight className={css.iconGenre} /> {g.name}
+                  </span>
+                ))}
+              </div>
+
+              <h3>Duration</h3>
+              <div className={css.duration}>
+                <FaRegClock className={css.iconDuration} />
+                <span>{movie.runtime} min</span>
+              </div>
             </div>
           </div>
   
           <div className={css.additionalInfo}>
-            <p>Additional information</p>
+            <h3>Additional information</h3>
             <ul>
-              <li><Link to="cast" state={{ from: backLink }}>Cast</Link></li>
-              <li><Link to="reviews" state={{ from: backLink }}>Reviews</Link></li>
+              <li>
+                <FaAngleRight className={css.iconInfo} />
+                <Link to="cast" state={{ from: backLink }}>Cast</Link></li>
+              <li>
+              <FaAngleRight className={css.iconInfo} />
+                <Link to="reviews" state={{ from: backLink }}>Reviews</Link></li>
             </ul>
           </div>
   
