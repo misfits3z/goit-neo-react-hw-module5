@@ -93,3 +93,21 @@ export const getReviews = async (id) => {
     throw error;
   }
 };
+
+// відео
+export const getVideo = async (id) => {
+  try {
+    const response = await axios.get(`/movie/${id}/videos`, {
+      ...options,
+      params: {
+        language: 'en-US',
+        include_adult: false,
+      },
+    });
+    console.log('get video', response.data);
+    return response.data;  
+  } catch (error) {
+    console.error('Error fetching movie videos:', error);
+    throw error;
+  }
+};

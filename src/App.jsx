@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import './App.css';
+import Videos from './components/Video/Video';
 
 // Імпортуємо компоненти
 const HomePage = lazy (() => import('./pages/HomePage/HomePage'))
@@ -28,6 +29,7 @@ function App() {
             <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
               <Route path="cast" element={<MovieCast />} />
               <Route path="reviews" element={<MovieReviews />} />
+              <Route path="video" element={<Videos />} />
             </Route>
 
             {/* Сторінка для неіснуючих маршрутів */}
