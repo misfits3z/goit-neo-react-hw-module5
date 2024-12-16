@@ -8,11 +8,13 @@ function Videos() {
     const [video, setVideo] = useState([]); 
     const { movieId } = useParams(); 
     const location = useLocation();
+    const [isLoading, setIsLoading] = useState(true)
   
     useEffect(() => {
       if (!movieId) return; 
   
       const fetchVideo = async (id) => {
+        setIsLoading(true)
         try {
           const data = await getVideo(id); 
           if (data && data.results) {
@@ -24,13 +26,17 @@ function Videos() {
           }
         } catch (error) {
           console.error("Failed to fetch movie video:", error);
+        } finally {
+          setIsLoading(false)
         }
       };
   
       fetchVideo(movieId);
     }, [movieId, location]);
-  
-    if (!video.length) return <p>Loading...</p>;
+
+    if (isLoading) return <p>Loading...</p>;
+    if (!video.length) return <p>No trailers</p>;
+    
   
     return (
       <div className={css.videoContainer}>

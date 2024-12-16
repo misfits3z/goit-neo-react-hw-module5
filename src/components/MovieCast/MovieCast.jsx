@@ -1,18 +1,20 @@
 import { getCast } from "../../api/api";
 import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import css from './MovieCast.module.css'
 
 function MovieCast() {
   const [cast, setCast] = useState([]); 
   const { movieId } = useParams(); 
-  const location = useLocation
+  const [isLoading, setIsLoading] = useState(true)
+  // const location = useLocation()
 
   useEffect(() => {
     if (!movieId) return; 
 
     const fetchCast = async (id) => {
       try {
+        setIsLoading(true)
         const data = await getCast(id); 
         if (data && data.cast) {
           setCast(data.cast); 
@@ -22,13 +24,17 @@ function MovieCast() {
         }
       } catch (error) {
         console.error("Failed to fetch movie cast:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchCast(movieId);
-  }, [location, movieId]); 
-
-  if (!cast.length) return <p>Loading...</p>;
+  }, [ movieId]); 
+  
+  if (isLoading) return <p>Loading...</p>
+  if (!cast.length) return <p>No results</p>;
+  
 
   return (
     <div className={css.castContainer}>
